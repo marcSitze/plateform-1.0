@@ -1,0 +1,19 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "dist/src/server.js",
+      "use": "@now/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "server/src/server.js"
+    }
+  ],
+  "env": {
+    "MONGO_LOCAL": "mongodb+srv://afromeme-mongo-user:YsfySK9iDg1999bc@localdb.2oyid.mongodb.net/afromeme-master?retryWrites=true&w=majority",
+    "JWT_SECRET": "my-ultra-secret-jwt"
+  }
+}

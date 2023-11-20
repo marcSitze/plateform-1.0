@@ -1,0 +1,55 @@
+<br><br><br><br>
+<h1 class="ml-2"></h1>
+<div class="ml-2"></div>
+<div class="ml-2">Member since:</div>
+<div id="portfolio-wrapper">
+  <%= JSON.stringify(user) %>
+    <div class="container">
+        <div class="row">
+            <div class="errors"></div>
+            <form>
+                <label>password</label>
+                <input type="password" name="password" />
+                <label>Confirm password</label>
+                <input type="password" name="confirmPassword" />
+                <input name="userId" value="<%= user.userId %>" hidden="true" />
+                <input name="token" value="<%= user.token %>" hidden="true" />
+                <button> reset </button>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    const form = document.querySelector('form');
+    const errors = document.querySelector('.errors');
+document.querySelector('button').addEventListener('click', e => {
+    e.preventDefault();
+    if(form.password.value !== form.confirmPassword.value) {
+        errors.innerHTML = `<li>Password should be thesame</li>`;
+        return;
+    }
+
+    var myHeaders = new Headers();
+myHeaders.append("Content-Type", "application/json");
+
+var raw = JSON.stringify({
+  "userId": form.userId.value,
+  "token": form.token.value,
+  "password": form.password.value
+});
+
+var requestOptions = {
+  method: 'POST',
+  headers: myHeaders,
+  body: raw,
+  redirect: 'follow'
+};
+
+fetch("https://afromeme-api/api/users/auth/resetPassword", requestOptions)
+  .then(response => response.text())
+  .then(result => console.log(result))
+  .catch(error => console.log('error', error));
+})
+</script>
