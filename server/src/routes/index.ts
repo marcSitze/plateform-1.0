@@ -1,21 +1,18 @@
-import express, { Router } from 'express';
+import express, { Router } from "express";
 const router: Router = express.Router();
 
 // routes
-import accountsRoute from "./account";
-import usersRoute from "./users";
-import postsRoutes from './posts';
-import commentsRoutes from './comments'
-import mediaRoutes from './media';
-import searchRoutes from './search';
-import tagsRoutes from './tags';
-import notificationsRoutes from './notifications'
+import accountsRoute from "../modules/profile/profile.routes";
+import usersRoute from "../modules/user/users.routes";
+import postsRoutes from "../modules/post/posts.routes";
+import commentsRoutes from "../modules/comment/comments.routes";
+import mediaRoutes from "../modules/media/media.routes";
+import searchRoutes from "./search";
+import tagsRoutes from "../modules/tag/tags.routes";
 // import donateRoute from "./donate";
 
-import { isLoggedIn } from '../middlewares/auth/isLoggedIn';
-import { getIndex, getIndividual, postComment } from '../controllers';
-import todosController from '../todos/todosController';
-import PostsController from '../posts/posts.controller';
+import { isLoggedIn } from "../middlewares/auth/isLoggedIn";
+import { getIndex, getIndividual, postComment } from "../controllers";
 
 // Check if user is loggedIn
 // router.use(isLoggedIn);
@@ -24,29 +21,24 @@ import PostsController from '../posts/posts.controller';
     Index page route get all memes
 =====================================*/
 // Display all the videos and images
-router.get('/', getIndex);
-router.get('/refresh', getIndex);
+router.get("/", getIndex);
+router.get("/refresh", getIndex);
 // user routes
 router.use("/users", usersRoute);
 // account routes
 router.use("/accounts", accountsRoute);
 // posts routes
-router.use('/posts', postsRoutes);
+router.use("/posts", postsRoutes);
 // router.use('/posts', PostsController);
 // comments routes
-router.use('/comments', commentsRoutes);
+router.use("/comments", commentsRoutes);
 
 // media routes
-router.use('/media', mediaRoutes);
+router.use("/media", mediaRoutes);
 
-router.use('/search', searchRoutes);
+router.use("/search", searchRoutes);
 
-router.use('/tags', tagsRoutes);
-
-router.use('/notifications', notificationsRoutes);
-
-router.all('/todos', todosController)
-
+router.use("/tags", tagsRoutes);
 
 // router.use("/", reglogRoute);
 // app.use("/upload", uploadRoute);

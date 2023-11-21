@@ -5,7 +5,7 @@ const User = require("../models/Users");
 import * as bcrypt from "bcrypt";
 
 import { Errors } from "../types";
-import UserService from "../services/user.service";
+import UserService from "../modules/user/user.service";
 
 // export const getRegisterForm = () => {
 //        // to check if user is loggedin
@@ -21,7 +21,7 @@ export const createUser = async (req: Request, res: Response) => {
   const errors = [];
 
   const { name, email, password } = req.body;
-   console.log(req.body);
+  console.log(req.body);
   let user;
   try {
     // to check if user is loggedin
@@ -37,7 +37,7 @@ export const createUser = async (req: Request, res: Response) => {
       //    title: 'Register',
       //    userAuth
       // });
-      return res.status(400).json({ "errors": errors });
+      return res.status(400).json({ errors: errors });
     }
     if (!name) {
       errors.push({ msg: "Please enter the Username" });
@@ -62,7 +62,7 @@ export const createUser = async (req: Request, res: Response) => {
       //      title: 'Register',
       //      userAuth
       //    });
-      return res.status(400).json({ 'errors': errors });
+      return res.status(400).json({ errors: errors });
     }
 
     // 2 Encrypt password
@@ -159,29 +159,29 @@ export const login = async (req: Request, res: Response) => {
       },
     };
 
-   //  jwt.sign(
-   //    payload,
-   //    newSecret,
-   //    {
-   //      expiresIn: 3600000,
-   //    },
-   //    (err: any, token: string | undefined) => {
-   //      if (err) throw err;
-   //      res.cookie("jwt", token, {
-   //        expires: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000),
-   //        httpOnly: true,
-   //      });
+    //  jwt.sign(
+    //    payload,
+    //    newSecret,
+    //    {
+    //      expiresIn: 3600000,
+    //    },
+    //    (err: any, token: string | undefined) => {
+    //      if (err) throw err;
+    //      res.cookie("jwt", token, {
+    //        expires: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000),
+    //        httpOnly: true,
+    //      });
 
-   //      // res.status(200).json({
-   //      //    status: 'success',
-   //      //    token,
-   //      //    data: {
-   //      //       user
-   //      //    }
-   //      //  });
-   //      // res.status(200).redirect('/me');
-   //    }
-   //  );
+    //      // res.status(200).json({
+    //      //    status: 'success',
+    //      //    token,
+    //      //    data: {
+    //      //       user
+    //      //    }
+    //      //  });
+    //      // res.status(200).redirect('/me');
+    //    }
+    //  );
 
     let token = await jwt.sign(payload, newSecret, {
       expiresIn: 3600000,
