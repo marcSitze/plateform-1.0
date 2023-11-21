@@ -1,18 +1,16 @@
-import mailer from 'nodemailer';
-import smtp from 'nodemailer-smtp-transport';
+import mailer from "nodemailer";
+import smtp from "nodemailer-smtp-transport";
 
 type EmailDTO = {
   to: string;
   text: string; // can also be html
   subject: string;
-}
+};
 
 export class EmailService {
-  constructor(){}
+  constructor() {}
 
-  sendEmail(payload: EmailDTO) {
-
-  }
+  sendEmail(payload: EmailDTO) {}
 
   async newmailjet(payload: EmailDTO) {
     const transport = mailer.createTransport(
@@ -33,7 +31,7 @@ export class EmailService {
       const json = await transport.sendMail({
         from: "marcsitze01@gmail.com", // From address // can take array of strings
         to: payload.to, // To address // can take array aswell
-				subject: payload.subject, // Subject
+        subject: payload.subject, // Subject
         html: payload.text, // Content
         // attachments: [{
         //   filename: src,

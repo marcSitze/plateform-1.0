@@ -1,35 +1,33 @@
-import multer from 'multer';
-import * as path from 'path';
-import fs from 'fs';
-import { v4 as uuidV4 } from 'uuid';
-import MediaService from '../services/media.service';
+import multer from "multer";
+import * as path from "path";
+import fs from "fs";
+import { v4 as uuidV4 } from "uuid";
+import MediaService from "../modules/media/media.service";
 
-const UPLOAD_PATH: string = 'uploads';
+const UPLOAD_PATH: string = "uploads";
 const mediaService = new MediaService();
 
 const mediaFilter = function (req: any, file: any, cb: any) {
-  console.log('file: ', req.file);
+  console.log("file: ", req.file);
   req.media = req.file;
   // accept image only
   if (!file.originalname.match(/\.(jpg|jpeg|png|gif|3gp|mov|avi|mp4|flv)$/)) {
-    return cb(new Error('Only image files are allowed!'), false);
+    return cb(new Error("Only image files are allowed!"), false);
   }
   cb(null, true);
 };
 
 const storage = multer.diskStorage({
-  destination: function(req, file, callback) {
-
+  destination: function (req, file, callback) {
     callback(null, `./${UPLOAD_PATH}`);
-},
+  },
   filename: function (req: any, file, callback) {
-
     //  console.log(req.user);
-      const ext = file.mimetype.split('/')[1];
-       callback(null, `${uuidV4()}.${ext}`);
-      // callback(null, `user-${Date.now()}.${ext}`);
-  }
-})
+    const ext = file.mimetype.split("/")[1];
+    callback(null, `${uuidV4()}.${ext}`);
+    // callback(null, `user-${Date.now()}.${ext}`);
+  },
+});
 
 // export const upload = multer({ dest: `${UPLOAD_PATH}/`, fileFilter: mediaFilter }); // apply filter
 export const upload = multer({ storage, fileFilter: mediaFilter }); // apply filter
@@ -41,8 +39,8 @@ export const createMedia = async (file: any, userId: string) => {
     path: file.path,
     photo: {
       data: fs.readFileSync(file.path),
-      contentType: file.mimetype
-    }
+      contentType: file.mimetype,
+    },
   };
   try {
     const newMedia = await mediaService.createMedia(media);
@@ -50,8 +48,7 @@ export const createMedia = async (file: any, userId: string) => {
   } catch (err) {
     console.error(err);
   }
-}
-
+};
 
 // import { Request, Response } from 'express';
 // import formidable, { Files } from 'formidable';
@@ -108,7 +105,5 @@ export const createMedia = async (file: any, userId: string) => {
 //       }
 //     }
 //   });
-
-
 
 // }

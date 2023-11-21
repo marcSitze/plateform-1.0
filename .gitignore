@@ -4,3 +4,5 @@ server/public
 server/src/public
 
 node_modules
+
+server/.env

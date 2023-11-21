@@ -1,36 +1,37 @@
-import app from "../index"
-import Post from "../models/Post"
-import UserService from "../services/user.service"
-import mongoose from "mongoose"
-import supertest from "supertest"
-import config from '../config'
-import mongoConnection from '../config/dbConfig'
-import IUser from "../interfaces/users/user.interface"
+import app from "../index";
+import Post from "../modules/post/Post";
+import UserService from "../modules/user/user.service";
+import mongoose from "mongoose";
+import supertest from "supertest";
+import config from "../config";
+import mongoConnection from "../config/dbConfig";
+import IUser from "../modules/user/users/user.interface";
 
-const userService = new UserService()
+const userService = new UserService();
 
 beforeEach((done) => {
-    mongoConnection(config.mongo.MONGO_TEST_DB)
-    done()
+  mongoConnection(config.mongo.MONGO_TEST_DB);
+  done();
 });
 
 afterEach((done) => {
   mongoose.connection.db.dropDatabase(() => {
-    mongoose.connection.close(() => done())
+    mongoose.connection.close(() => done());
   });
 });
 
-describe('Create a user and expect success', () => {
+describe("Create a user and expect success", () => {
   test("GET /api/users", async () => {
     // const post = await Post.create({ title: "Post 1", content: "Lorem ipsum" });
     const user = {
-      email: 'tgiraldez0@berkeley.edu',
-      username: 'Thalia',
-      phone: '110-420-6434',
-      password: 'tmUsGoS4'
-    }
-    const newUser: IUser = await userService.createUser(user)
-    await supertest(app).get("/api/users")
+      email: "tgiraldez0@berkeley.edu",
+      username: "Thalia",
+      phone: "110-420-6434",
+      password: "tmUsGoS4",
+    };
+    const newUser: IUser = await userService.createUser(user);
+    await supertest(app)
+      .get("/api/users")
       .expect(200)
       .then((response) => {
         // Check type and length
@@ -45,9 +46,7 @@ describe('Create a user and expect success', () => {
         // expect(response.body[0].content).toBe(post.content);
       });
   });
-
-})
-
+});
 
 // test("POST /api/posts", async () => {
 //   const data = { title: "Post 1", content: "Lorem ipsum" };
